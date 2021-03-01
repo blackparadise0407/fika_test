@@ -1,9 +1,12 @@
 const dev = {
-  API_URL: 'http://swapi.dev/api/'
-}
+  API_URL: 'https://swapi.dev/api/'
+};
 
-const prod = {}
+const prod = {
+  API_URL: 'https://swapi.dev/api/'
+};
 
-const config = process.env.NODE_ENV === 'development' ? dev : prod
+// eslint-disable-next-line no-undef
+const config = process.env.NODE_ENV === 'development' ? dev : prod;
 
-export default config
+export default config;
