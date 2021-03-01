@@ -15,49 +15,60 @@ const columns = [
     title: 'Name',
     dataIndex: 'name',
     key: 'name',
+    align: 'left',
+    render: text => <b>{text}</b>,
+    fixed: 'left'
   },
   {
     title: 'Height',
     dataIndex: 'height',
     key: 'height',
+    align: 'center',
+
   },
   {
     title: 'Mass',
     dataIndex: 'mass',
     key: 'mass',
+    align: 'center',
   },
   {
     title: 'Hair color',
     dataIndex: 'hair_color',
     key: 'hair_color',
+    align: 'center',
   },
   {
     title: 'Skin color',
     dataIndex: 'skin_color',
     key: 'skin_color',
+    align: 'center',
   },
   {
     title: 'Eye color',
     dataIndex: 'eye_color',
     key: 'eye_color',
+    align: 'center',
   },
   {
     title: 'Birth year',
     dataIndex: 'birth_year',
     key: 'birth_year',
+    align: 'center',
   },
   {
     title: 'Gender',
     dataIndex: 'gender',
     key: 'gender',
+    align: 'center',
   }
 ]
 
 
 /**
- * 
+ *
  * @param {object} obj
- * @returns {object} 
+ * @returns {object}
  */
 
 const filterNull = (obj) => {
@@ -83,8 +94,8 @@ const Home = ({
 
   let formattedData = []
   if (peopleData) {
-    _.map(peopleData.results, i => {
-      formattedData.push(filterNull(i))
+    _.map(peopleData.results, (i, idx) => {
+      formattedData.push({ key: idx, ...filterNull(i) })
     })
   }
 
@@ -99,7 +110,7 @@ const Home = ({
         columns={columns}
         dataSource={formattedData}
         pagination={false}
-        scroll={{ x: 1500 }}
+        scroll={{ x: 1000 }}
         sticky
         loading={peopleLoading}
         footer={() => <Pagination onChange={(page, pageSize) => setPage(page)} current={page} defaultCurrent={1} total={82} showSizeChanger={false} />}
