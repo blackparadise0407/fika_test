@@ -14,5 +14,10 @@
   .container {
     max-width: 132rem;
     margin: 0 auto;
+
+    & thead > tr > th {
+      background-color: #fec007;
+      color: #000;
+    }
   }
 }

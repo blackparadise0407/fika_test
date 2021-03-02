@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import _ from 'lodash';
 import { Table, Tag, Space, Pagination } from 'antd';
 
 import { fetchPeople } from '../../redux/actions/people';
-import { logoImg } from '../../constants';
+import { logoImg, basicColorSet } from '../../constants';
 
 import './styles.scss';
 
@@ -16,15 +16,14 @@ const columns = [
     dataIndex: 'name',
     key: 'name',
     align: 'left',
+    fixed: 'left',
     render: text => <b>{text}</b>,
-    fixed: 'left'
   },
   {
     title: 'Height',
     dataIndex: 'height',
     key: 'height',
     align: 'center',
-
   },
   {
     title: 'Mass',
@@ -37,6 +36,9 @@ const columns = [
     dataIndex: 'hair_color',
     key: 'hair_color',
     align: 'center',
+    render: hair_color => (
+      hair_color === 'n/a' ? hair_color.toUpperCase() : hair_color
+    )
   },
   {
     title: 'Skin color',
@@ -49,6 +51,17 @@ const columns = [
     dataIndex: 'eye_color',
     key: 'eye_color',
     align: 'center',
+    render: eye_color => {
+      if (_.indexOf(basicColorSet, eye_color) > -1) {
+        return <Tag color={eye_color === 'white' ? 'default' : eye_color}>
+          {eye_color.toUpperCase()}
+        </Tag>
+      } else return (
+        <Tag color='warning'>
+          {eye_color.toUpperCase()}
+        </Tag>
+      );
+    }
   },
   {
     title: 'Birth year',
@@ -61,6 +74,24 @@ const columns = [
     dataIndex: 'gender',
     key: 'gender',
     align: 'center',
+    render: gender => {
+      return <Tag color={gender === 'n/a' ? 'default' : gender === 'male' ? '#2DA9D9' : '#B73377'}>
+        {gender.toUpperCase()}
+      </Tag>
+    }
+  },
+  {
+    title: 'Species',
+    dataIndex: 'species',
+    key: 'species',
+    align: 'center',
+    render: species => {
+      if (species.length) {
+        return _.map(species, (per, idx) => <p key={idx}>{per}</p>)
+      } else {
+        return <p>unknown</p>
+      }
+    }
   }
 ]
 
@@ -87,6 +118,7 @@ const Home = ({
 }) => {
   const [page, setPage] = React.useState(1);
 
+
   React.useEffect(() => {
     fetchPeople({ page });
   }, [fetchPeople, page]);
@@ -106,15 +138,21 @@ const Home = ({
     <div className="container">
       <Table
         size="small"
-        bordered={true}
+        // bordered={true}
         columns={columns}
         dataSource={formattedData}
         pagination={false}
-        scroll={{ x: 1000 }}
+        scroll={{ x: 1000, y: 400 }}
         sticky
         loading={peopleLoading}
-        footer={() => <Pagination onChange={(page, pageSize) => setPage(page)} current={page} defaultCurrent={1} total={82} showSizeChanger={false} />}
+        footer={() => <Pagination
+          onChange={(page) => setPage(page)}
+          current={page}
+          defaultCurrent={1}
+          total={peopleData && peopleData.count}
+          showSizeChanger={false} />}
       />
+
     </div>
   </div>);
 };
