@@ -2,4 +2,4 @@
 
 rm -rf ./build
 yarn build
-scp ./build kyle@178.128.80.11:root/home/kyle/apps/fika
+ scp -r ./build kyle@178.128.80.11:/home/kyle/apps/fika
