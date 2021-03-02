@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Table, Tag, Space, Pagination } from 'antd';
+import { Table, Tag, Pagination } from 'antd';
 
 import { fetchPeople } from '../../redux/actions/people';
 import { logoImg, basicColorSet } from '../../constants';
@@ -92,7 +92,39 @@ const columns = [
         return <p>unknown</p>
       }
     }
-  }
+  },
+  {
+    title: 'Vehicles',
+    dataIndex: 'vehicles',
+    key: 'vehicles',
+    align: 'center',
+    render: vehicles => {
+      if (vehicles.length) {
+        return _.map(vehicles, (per, idx) => <p key={idx}>{per}</p>)
+      } else {
+        return <p>N/A</p>
+      }
+    }
+  },
+  {
+    title: 'Starships',
+    dataIndex: 'starships',
+    key: 'starships',
+    align: 'center',
+    render: starships => {
+      if (starships.length) {
+        return _.map(starships, (per, idx) => <p key={idx}>{per}</p>)
+      } else {
+        return <p>N/A</p>
+      }
+    }
+  },
+  {
+    title: 'Homeworld',
+    dataIndex: 'homeworld',
+    key: 'homeworld',
+    align: 'center',
+  },
 ]
 
 
